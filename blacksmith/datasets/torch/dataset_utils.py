@@ -15,6 +15,7 @@ from blacksmith.datasets.torch.stanfordcars.stanfordcars_dataset import (
     StanfordCarsDataset,
 )
 from blacksmith.datasets.torch.text2sql.text2sql_dataset import TextToSQLDataset
+from blacksmith.datasets.torch.wizardlm_evol.wizardlm_evol_dataset import WizardLMEvolDataset
 from blacksmith.tools.templates.configs import TrainingConfig
 
 
@@ -29,6 +30,7 @@ class AvailableDataset(Enum):
     STANFORDCARS = "stanfordcars"
     ALPACA = "alpaca"
     METAMATHQA = "metamathqa"
+    WIZARDLM_EVOL = "wizardlm_evol"
 
 
 def get_dataset(config: TrainingConfig, split: str = "train", collate_fn=None):
@@ -55,6 +57,8 @@ def get_dataset(config: TrainingConfig, split: str = "train", collate_fn=None):
         return AlpacaDataset(config, split, collate_fn=collate_fn)
     elif dataset_id == AvailableDataset.METAMATHQA.value:
         return MetaMathQADataset(config, split, collate_fn=collate_fn)
+    elif dataset_id == AvailableDataset.WIZARDLM_EVOL.value:
+        return WizardLMEvolDataset(config, split, collate_fn=collate_fn)
     else:
         available_datasets = [ds.value for ds in AvailableDataset]
         raise ValueError(f"Unsupported dataset: {dataset_id}. Available options are: {available_datasets}")
